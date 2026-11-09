@@ -1,0 +1,20 @@
+# Local secrets and runtime data
+.env
+.env.*
+backend/data/*.sqlite
+backend/data/*.sqlite-*
+backend/data/attendance.json
+backend/data/*.json
+
+# Local backups
+*.backup.html
+backend/server_v2.js
+
+# Node/npm
+node_modules/
+npm-debug.log*
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
