@@ -339,6 +339,8 @@
     let stableCandidate = { id: null, frames: 0 };
 
     const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model/';
+    // Netlify meneruskan /api/* ke backend Render melalui _redirects.
+    const API_BASE = '';
     const BACKEND_URL = '/api/data';
     let backendAvailable = false;
 
@@ -353,7 +355,7 @@
     // Init Application
     window.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('loginForm').addEventListener('submit', handleLogin);
-      const session = await fetch('/api/session').then(r => r.json()).catch(() => ({ authenticated: false }));
+      const session = await fetch(`${API_BASE}/api/session`, { credentials: 'include' }).then(r => r.json()).catch(() => ({ authenticated: false }));
       if (session.authenticated) await openApplication();
     });
 
@@ -361,7 +363,7 @@
       event.preventDefault();
       const errorBox = document.getElementById('loginError');
       errorBox.classList.add('hidden');
-      const response = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: loginUsername.value, password: loginPassword.value }) });
+      const response = await fetch(`${API_BASE}/api/login`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: loginUsername.value, password: loginPassword.value }) });
       const result = await response.json();
       if (!response.ok) { errorBox.innerText = result.error || 'Login gagal'; errorBox.classList.remove('hidden'); return; }
       await openApplication();
